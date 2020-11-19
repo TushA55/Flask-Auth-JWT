@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<form>
+    <h2>Sign up</h2>
+    <label for="email">Email</label>
+    <input type="email" name="email" required />
+    <div class="email error"></div>
+
+    <label for="password">Password</label>
+    <input type="password" name="password" required />
+    <div class="password error"></div>
+    <button>Sign up</button>
+</form>
+{% endblock body %}
+
+{% block scripts %}
+<script>
+    const form = document.querySelector('form');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // get values
+        const email = form.email.value;
+        const password = form.password.value;
+        
+        try {
+            const emailerr = document.querySelector('.email.error');
+            const pswderr = document.querySelector('.password.error');
+            
+            emailerr.textContent = '';
+            pswderr.textContent = '';
+
+
+            const res = await fetch('{{ url_for("signup_post") }}',{
+                method: 'POST',
+                body: JSON.stringify({email, password}),
+                headers: {'Content-Type': 'application/json'}
+            });
+
+            const data = await res.json();
+            if(data.errors) {          
+                emailerr.textContent = data.errors.email;
+                pswderr.textContent = data.errors.password;
+            }
+            if(data.user){
+                location.assign('/');
+            }
+
+        } catch (err) {
+            
+        }
+    })
+</script>
+{% endblock scripts %}

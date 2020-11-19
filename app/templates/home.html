@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<header>
+    <div class="smoothie">
+        <img src="{{ url_for('static', filename='img/smoothie.png') }}" alt="">
+    </div>
+    <div class="headings">
+        <h2>Smoothie Recipes</h2>
+        <h3>By Ninjas For Ninjas</h3>
+        <a href="{{ url_for('smoothies') }}" class="btn">View Recipes</a>
+    </div>
+</header>
+{% endblock body %}
